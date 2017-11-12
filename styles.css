@@ -18,7 +18,7 @@ main {
 /*Input Area Styling*/
 
 h1 {
-  color: #6D6E71;
+  color: #6d6e71;
   font-family: "Roboto Slab", serif;
   font-size: 3em;
   margin: 0px;
@@ -26,13 +26,13 @@ h1 {
 }
 
 h1 > span {
-  color: #00A79D;
+  color: #00a79d;
 }
 
 input,
 textarea {
-  border: 1px solid #D1D3D4;
-  color: #6D6E71;
+  border: 1px solid #d1d3d4;
+  color: #6d6e71;
   display: block;
   font-family: "Open Sans", sans-serif;
   font-size: 1em;
@@ -45,7 +45,7 @@ textarea {
 input::placeholder,
 textarea::placeholder {
   font-weight: 700;
-  color: #D1D3D4;
+  color: #d1d3d4;
 }
 
 input {
@@ -69,15 +69,15 @@ p:focus {
   padding: 0px;
 }
 
-.blue-background {
-  background-color: #E5F3F2;
+.color-background {
+  background-color: #e5f3f2;
   padding: 30px 0px 15px;
 }
 
 .save-button {
-  background-color: #00A79D;
+  background-color: #00a79d;
   border-style: none;
-  color: #FFF;
+  color: #fff;
   cursor: pointer;
   display: block;
   font-family: "Open Sans", sans-serif;
@@ -89,11 +89,11 @@ p:focus {
 }
 
 .save-button:hover {
-  background-color: #045E55;
+  background-color: #045e55;
 }
 
 .save-button:disabled {
-  background-color: #D1D2D4;
+  background-color: #d1d2d4;
   cursor: auto;
 }
 
@@ -110,8 +110,8 @@ p:focus {
 }
 
 .idea-card-wrap input {
-  border: 1px solid #D1D3D4;
-  color: #6D6E71;
+  border: 1px solid #d1d3d4;
+  color: #6d6e71;
   font-size: 1em;
   height: 2.5em;
   padding: 10px;
@@ -125,7 +125,7 @@ p:focus {
 }
 
 .idea-card-wrap input::placeholder {
-  color: #cccccc;
+  color: #ccc;
   font-size: 1em;
   font-weight: bold;
 }
@@ -148,11 +148,12 @@ p:focus {
 
 .idea-card h1,
 .idea-card h2 {
-  color: #6D6E71;
+  color: #6d6e71;
   display: inline-block;
   font-family: 'Roboto Slab', serif;
   font-weight: 700;
   margin: 0px;
+  width: 91%;
 }
 
 .idea-card .rating,
@@ -170,7 +171,7 @@ p:focus {
 }
 
 .idea-card hr {
-  border: 1px solid #D1D3D4;
+  border: 1px solid #d1d3d4;
   margin: 20px 0;
 }
 
