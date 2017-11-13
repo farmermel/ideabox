@@ -19,8 +19,8 @@ $('.save-button').on('click', makeCardObject);
 function makeCardObject(event) {
   event.preventDefault();
   disableSaveButton();
-  var titleInput = $('#title').val();
-  var ideaInput = $('#idea').val();
+  var titleInput = $('#title-input').val();
+  var ideaInput = $('#idea-input').val();
   var dateNow = Date.now();
   var ideaCard = new IdeaCard(titleInput, ideaInput, dateNow);
   localStorage.setItem(dateNow, JSON.stringify(ideaCard));
@@ -29,9 +29,9 @@ function makeCardObject(event) {
 
 function createCard(card) {
   $('.idea-card-wrap').prepend(`<article id="${card.id}" class="idea-card">
-  <h1 class="user-idea" contenteditable="true">${card.title}</h1>
+  <h1 id="title" class="user-idea" contenteditable="true">${card.title}</h1>
   <button class="delete-button" aria-label="Delete Button"></button>
-  <p class="user-idea-details" contenteditable="true">${card.idea}</p>
+  <p id="idea" class="user-idea-details" contenteditable="true">${card.idea}</p>
   <button class="upvote-button" aria-label="upvote button"></button>
   <button class="downvote-button" aria-label="downvote button"></button>
   <h2>quality: <span class="rating">${ratingArray[card.counter]}</span></h2>
@@ -40,40 +40,70 @@ function createCard(card) {
 };
 
 $(window).on('keydown', function() {
-  if (($('#title').val() !== '') && ($('#idea').val() !== '')) {
+  if (($('#title-input').val() !== '') && ($('#idea-input').val() !== '')) {
     enableSaveButton();
   } else {
     disableSaveButton();
   };
 });
 
-$('.idea-card-wrap').on('click', '.upvote-button', function() {
+
+//$('.idea-card-wrap').on('click', determineRatingVote)
+
+function determineRatingVote() {
   var clickedCardId = $(this).parent('article').attr('id');
-  var theObject = localStorage.getItem(clickedCardId);
-  var parsedTheObject = JSON.parse(theObject);
+  var theObject = JSON.parse(localStorage.getItem(clickedCardId));
+  var buttonClicked = $(this).prop('class');
+  changeRating(buttonClicked, theObject)
+}
+
+function changeRating(vote, cardObject) {
+
+  //the below line disables the wrong button, it should get downvote
+  //but it grabs upvote instead. Maybe use same strategy as with disabling and
+  //having a seperate function
+  // $(this).siblings(`.${buttonClicked}`).removeAttr('disabled')
+  if (theObject.counter === 2 || theObject.counter === 0 ) {
+    disableVote(vote);
+  } else {
+    //stuck here because I think this function is officially handling too much
+    //maybe have it be just determine vote?
+    //and then change rating is a different function and
+    //disableVote is a different function
+  }
+
+}
+
+
+$('.idea-card-wrap').on('click', '.upvote-button', function() {
+  //have a disableVote function that takes the event target as an argument
+  //place it inside the first conditional of this event listener and have if
+  //be (theObject.counter === 2 || theObject.counter === 0 )
+  //if target === upvote, disable upvote
+  //else disable downvote
+  console.log($(this).prop('class'))
+  var clickedCardId = $(this).parent('article').attr('id');
+  var theObject = JSON.parse(localStorage.getItem(clickedCardId));
   $(this).siblings('.downvote-button').removeAttr('disabled');
-  if (parsedTheObject.counter === 2) {
+  if (theObject.counter === 2) {
     $(this).attr('disabled', true);
   } else {
-    parsedTheObject.counter++;
-    $(this).siblings('h2').find('.rating').text(ratingArray[parsedTheObject.counter]);
-    var stringifiedTheObject = JSON.stringify(parsedTheObject);
-    localStorage.setItem(clickedCardId, stringifiedTheObject);
+    theObject.counter++;
+    $(this).siblings('h2').find('.rating').text(ratingArray[theObject.counter]);
+    localStorage.setItem(clickedCardId, JSON.stringify(theObject));
   };
 });
 
 $('.idea-card-wrap').on('click', '.downvote-button', function() {
   var clickedCardId = $(this).parent('article').attr('id');
-  var theObject = localStorage.getItem(clickedCardId);
-  var parsedTheObject = JSON.parse(theObject);
+  var theObject = JSON.parse(localStorage.getItem(clickedCardId));
   $(this).siblings('.upvote-button').removeAttr('disabled');
-  if (parsedTheObject.counter === 0) {
+  if (theObject.counter === 0) {
     $(this).attr('disabled', true);
   } else {
-    parsedTheObject.counter--;
-    $(this).siblings('h2').find('.rating').text(ratingArray[parsedTheObject.counter]);
-    var stringifiedTheObject = JSON.stringify(parsedTheObject);
-    localStorage.setItem(clickedCardId, stringifiedTheObject);
+    theObject.counter--;
+    $(this).siblings('h2').find('.rating').text(ratingArray[theObject.counter]);
+    localStorage.setItem(clickedCardId, JSON.stringify(theObject));
   };
 });
 
@@ -119,32 +149,10 @@ function enableSaveButton() {
 function persistEdit() {
   var parentArticle = $(event.target).closest('article');
   var id = parentArticle.prop('id');
-  console.log(parentArticle.children('.user-idea').text());
+  var object = JSON.parse(localStorage.getItem(id));
+  object[$(event.target).prop('id')] = $(event.target).text();
+  localStorage.setItem(id, JSON.stringify(object));
 }
-
-// function persistTextEdit() {
-//   console.log(this);
-//   var parentArticle = $(event.target).closest('article');
-//   var id = parentArticle.prop('id');
-//   var newText = parentArticle.children('p').text();
-//   var objectFromLocal = localStorage.getItem(id);
-//   var object = JSON.parse(objectFromLocal);
-//   object.idea = newText;
-//   var objectString = JSON.stringify(object);
-//   localStorage.setItem(id, objectString);
-// };
-
-function persistTitleEdit() {
-  console.log(this);
-  var parentArticle = $(event.target).closest('article');
-  var id = parentArticle.prop('id');
-  var newTitle = parentArticle.children('h1').text();
-  var objectFromLocal = localStorage.getItem(id);
-  var object = JSON.parse(objectFromLocal);
-  object.title = newTitle;
-  var objectString = JSON.stringify(object);
-  localStorage.setItem(id, objectString);
-};
 
 function printSearchResults(searchedArray) {
   searchedArray.forEach(function(result) {
