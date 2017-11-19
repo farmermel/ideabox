@@ -24,7 +24,7 @@ function makeCardObject(event) {
   var dateNow = Date.now();
   var ideaCard = new IdeaCard(titleInput, ideaInput, dateNow);
   localStorage.setItem(dateNow, JSON.stringify(ideaCard));
-  createCard(ideaCard)
+  createCard(ideaCard);
 };
 
 function createCard(card) {
@@ -47,15 +47,14 @@ $(window).on('keydown', function() {
   };
 });
 
-
 //$('.idea-card-wrap').on('click', determineRatingVote)
 
 function determineRatingVote() {
   var clickedCardId = $(this).parent('article').attr('id');
   var theObject = JSON.parse(localStorage.getItem(clickedCardId));
   var buttonClicked = $(this).prop('class');
-  changeRating(buttonClicked, theObject)
-}
+  changeRating(buttonClicked, theObject);
+};
 
 function changeRating(vote, cardObject) {
 
@@ -70,10 +69,8 @@ function changeRating(vote, cardObject) {
     //maybe have it be just determine vote?
     //and then change rating is a different function and
     //disableVote is a different function
-  }
-
-}
-
+  };
+};
 
 $('.idea-card-wrap').on('click', '.upvote-button', function() {
   //have a disableVote function that takes the event target as an argument
@@ -106,7 +103,6 @@ $('.idea-card-wrap').on('click', '.downvote-button', function() {
     localStorage.setItem(clickedCardId, JSON.stringify(theObject));
   };
 });
-
 
 $('.idea-card-wrap').on('click', '.delete-button', function(event) {
   deleteCard(event);
@@ -152,7 +148,7 @@ function persistEdit() {
   var object = JSON.parse(localStorage.getItem(id));
   object[$(event.target).prop('id')] = $(event.target).text();
   localStorage.setItem(id, JSON.stringify(object));
-}
+};
 
 function printSearchResults(searchedArray) {
   searchedArray.forEach(function(result) {
@@ -167,6 +163,3 @@ function runSearch(newArray) {
   });
   printSearchResults(searchedArray);
 };
-
-
-
